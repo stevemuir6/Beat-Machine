@@ -10,6 +10,9 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
 purple = (160, 32, 240)
+green = (0, 255, 0)
+gold = (212, 175, 55)
+
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Dope Beats')
@@ -17,8 +20,10 @@ label_font = pygame.font.Font("Bitter-Regular.ttf", 30)
 
 fps = 60
 timer = pygame.time.Clock()
-
-
+beats = 8
+instruments = 6
+boxes = []
+clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
 
 def draw_grid():
     left_box = pygame.draw.rect(screen, purple, [0, 0, 200, HEIGHT - 200], 5)
@@ -37,9 +42,14 @@ def draw_grid():
     screen.blit(clap_text, (30, 430))
     floor_text = label_font.render('Floor Tom', True, white)
     screen.blit(floor_text, (30, 530))
-    for i in range(6):
-        pygame.draw.line(screen, purple, (0, (i * 100) + 100), (200, (i * 100) + 100), 5)
+    for i in range(instruments):
+        pygame.draw.line(screen, purple, (0, (i * 100) + 100), (200, (i * 100) + 100), 3)
 
+    for i in range(beats):
+        for j in range(instruments):
+            rect = pygame.draw.rect(screen, purple, [i * ((WIDTH - 200) // beats) + 205, (j * 100),
+                                                   ((WIDTH - 200) // beats), ((HEIGHT - 200) // instruments)], 5, 5)
+    return boxes
 
 
 run = True
@@ -51,6 +61,12 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for i in range(len(boxes)):
+                if boxes[i][0].colliderect(event.pos):
+                    coords = boxes[i][1]
+                    clicked[coords[1]][coords[0]] *= -1
 
     pygame.display.flip()
 pygame.quit()
