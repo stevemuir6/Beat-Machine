@@ -3,12 +3,13 @@ import pygame
 from pygame import mixer
 pygame.init()
 
-black = (0, 0, 0)
+black = (8, 8, 8)
 white = (255, 255, 255)
 gray = (128, 128, 128)
 dark_gray = (50, 50, 50)
 light_gray = (170, 170, 170)
 purple = (160, 32, 240)
+medium_purple = (106, 19, 178)
 green = (0, 255, 0)
 gold = (212, 175, 55)
 blue = (0, 255, 255)
@@ -75,7 +76,7 @@ def draw_grid(clicks, beat, actives):
                 color = gray
             else:
                 if actives[j] == 1:
-                    color = green
+                    color = medium_purple
                 else:
                     color = dark_gray
             rect = pygame.draw.rect(screen, color,
